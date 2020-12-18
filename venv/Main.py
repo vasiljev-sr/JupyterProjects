@@ -10,6 +10,9 @@ with open("parametrs.json", "r") as reader:
 def timer():
     get_time = int(time.time())
     return  get_time
+NOW = timer()
+SCREENSHOT_TIME = timer()
+
 
 def mouse_is_active():
     while True:
@@ -20,8 +23,11 @@ def mouse_is_active():
         else:
             return True
 while True:
-    image = pyautogui.screenshot(data['path'] + str(datetime.now()) + '.png')
-    time.sleep(data['shot rate'])
+    if (NOW - SCREENSHOT_TIME) > 5:
+        image = pyautogui.screenshot(data['path'] + str(datetime.now()) + '.png')
+        SCREENSHOT_TIME = timer()
+    NOW = timer()
+
 
 
 
