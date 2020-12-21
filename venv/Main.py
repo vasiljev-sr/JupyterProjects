@@ -16,7 +16,7 @@ NOW = timer()
 SCREENSHOT_TIME = timer()
 
 
-def mouse_is_active():
+def mouse_event():
     global NOW
     s = {'pos': pyautogui.position(), 'timer': timer()}
     while True:
@@ -29,7 +29,7 @@ def mouse_is_active():
             event.set()
 
 
-def start():
+def start_screenshot():
     global NOW
     global SCREENSHOT_TIME
     while True:
@@ -40,7 +40,7 @@ def start():
 
 
 event = threading.Event()
-t1 = threading.Thread(target=mouse_is_active)
-t2 = threading.Thread(target=start)
+t1 = threading.Thread(target=mouse_event)
+t2 = threading.Thread(target=start_screenshot)
 t1.start()
 t2.start()
