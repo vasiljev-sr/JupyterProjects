@@ -32,12 +32,15 @@ def mouse_event():
             event.set()
 
 
+
 def start_screenshot():
     global NOW
     global SCREENSHOT_TIME
-    while True:
-        if (NOW - SCREENSHOT_TIME) > 5 and event.is_set():
-            image = pyautogui.screenshot(data['path'] + str(datetime.now()) + '.png')
+    event.wait()
+    while event.is_set():
+        if (NOW - SCREENSHOT_TIME) > 5: # and event.is_set():
+            #image = pyautogui.screenshot(data['path'] + str(datetime.now()) + '.png')
+            print('Screenshot')
             SCREENSHOT_TIME = timer()
         NOW = timer()
 
