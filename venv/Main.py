@@ -1,11 +1,10 @@
 import time
 from datetime import datetime
-import json
 import pyautogui
 import threading
+from GetParams import GetParams
 
-with open("parametrs.json", "r") as reader:
-    data = json.load(reader)
+params = GetParams('parameters.json')
 
 
 def timer():
@@ -19,12 +18,14 @@ SCREENSHOT_TIME = timer()
 
 def mouse_event():
     global NOW
-    s = {'pos': pyautogui.position(), 'timer': timer()}
+    pos = pyautogui.position()
+    last_position_time = timer()
     while True:
         NOW = timer()
-        if s['pos'] != pyautogui.position():
-            s = {'pos': pyautogui.position(), 'timer': timer()}
-        if NOW - s['timer'] > data["sleep time"]:
+        if pos != pyautogui.position():
+            pos = pyautogui.position()
+            last_position_time = timer()
+        if NOW - last_position_time > params.get_sleep_time():
             pass
         else:
             start_screenshot()
@@ -33,11 +34,10 @@ def mouse_event():
 def start_screenshot():
     global NOW
     global SCREENSHOT_TIME
-    if (NOW - SCREENSHOT_TIME) > data["shot rate"]: #and event.is_set():
-        image = pyautogui.screenshot(data['path'] + str(datetime.now()) + '.png')
+    if (NOW - SCREENSHOT_TIME) > params.get_shot_rate():  # and event.is_set():
+        image = pyautogui.screenshot(params.get_path() + str(datetime.now()) + '.png')
         SCREENSHOT_TIME = timer()
     NOW = timer()
-
 
 
 event = threading.Event()
